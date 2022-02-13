@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello OrderController!{% endblock %}
+
+{% block body %}
+    <a href="{{ path('order_new') }}">new</a>
+    <div class="list-group">
+        {% for order in orders %}
+            <a href="{{ path('order_edit', {"id": order.id}) }}" class="list-group-item list-group-item-action">{{ order.name }}</a>
+        {% endfor %}
+    </div>
+{% endblock %}
