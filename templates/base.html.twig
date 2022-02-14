@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr" class="h-100">
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Welcome!{% endblock %}</title>
@@ -14,9 +14,9 @@
         {{ encore_entry_script_tags('app') }}
     {% endblock %}
 </head>
-<body>
-{% include '_nav.html.twig' %}
-<main>
+<body class="d-flex flex-column h-100">
+{% include '_header.html.twig' %}
+<main class="mb-5">
     <div class="container">
         {% for label, messages in app.flashes %}
             {% for message in messages %}
@@ -29,5 +29,6 @@
         {% block body %}{% endblock %}
     </div>
 </main>
+{% include "_footer.html.twig" %}
 </body>
 </html>

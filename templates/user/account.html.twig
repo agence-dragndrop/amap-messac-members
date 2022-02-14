@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello UserController!{% endblock %}
+
+{% block body %}
+    {% if is_granted('ROLE_USER') %}
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 offset-md-1">
+                    <div class="p-3 p-md-5 bg-light rounded shadow">
+                        <h1>Bonjour {{ app.user.member.firstName }} !</h1>
+                        <p>Bienvenue sur votre compte.</p>
+                        <p>
+                            Vous pouvez vérifier vos informations ci-dessous.
+                            <br>
+                            Pour toute demande de modification, merci d'envoyer un message à <a href="mailto:amap@lalibauderie.org">amap@lalibauderie.org</a>.
+                        </p>
+                        <div class="d-flex flex-column flex-md-row align-items-center align-items-md-start">
+                            <div class="table-responsive-md w-100">
+                                <table class="table">
+                                    <tbody>
+                                        <tr>
+                                            <th>Prénom</th>
+                                            <td>{{ app.user.member.firstName }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Nom</th>
+                                            <td>{{ app.user.member.lastName }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>E-mail</th>
+                                            <td>{{ app.user.email }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Téléphone</th>
+                                            <td>{{ app.user.member.phone1 }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Portable</th>
+                                            <td>{{ app.user.member.mobile1 }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Adresse</th>
+                                            <td>
+                                                {{ app.user.member.address }}
+                                                <br>
+                                                {{ app.user.member.zip }} {{ app.user.member.city }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Liste(s) de diffusion</th>
+                                            <td>{{ app.user.member.groups|join(', ') }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="d-flex">
+                            <a class="btn btn-danger ms-auto" href="{{ path('app_logout') }}">
+                                <i class="bi bi-box-arrow-right"></i> Déconnexion
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="container">
+            <div class="alert alert-danger">
+                <i class="bi bi-exclamation-octagon fs-3"></i>
+                There is nothing for you here. Please <a href="{{ path('login') }}">login</a> to access content.
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
