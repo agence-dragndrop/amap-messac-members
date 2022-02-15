@@ -4,6 +4,7 @@ twig:
     globals:
         mailer_contact: '%mailer_contact%'
         mailer_from: '%mailer_from%'
+        navigation: '@App\Service\FrontNavigation'
 
 when@test:
     twig:

@@ -1,0 +1,46 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Hello OrderController!{% endblock %}
+
+{% block body %}
+    <a class="btn btn-primary mb-4" href="{{ path('admin_order_new') }}">
+        <i class="bi bi-plus-lg"></i>
+        Créer une nouvelle commande
+    </a>
+    <h2>Liste des commandes</h2>
+    <div class="table-responsive w-100">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Date de distribution</th>
+                <th>Date de clôture</th>
+                <th>Fichier associé</th>
+                <th>Mise à jour</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for order in orders %}
+                <tr>
+                    <td>{{ order.name }}</td>
+                    <td>{{ order.deliveryDate ? order.deliveryDate|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ order.endDate ? order.endDate|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ order.file }}</td>
+                    <td>{{ order.updatedAt ? order.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>
+                        <div class="d-flex justify-content-end">
+                            <a class="btn btn-primary me-2"
+                               href="{{ path('admin_order_edit', {"id": order.id}) }}" >
+                                <i class="bi bi-pencil"></i>
+                                éditer
+                            </a>
+                            {% include 'admin/admin_order/_delete_form.html.twig' %}
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

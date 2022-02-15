@@ -48,7 +48,6 @@ class AdminMember
                     $member->setFirstName($fullName[1]);
                     $member->setLastName($fullName[0]);
                 }
-                dump($vcard->CATEGORIES);
                 $this->setMemberGroup($vcard, $member);
                 $member->setEmail($vcard->EMAIL ?? '');
                 $member->setMobile1($vcard->getByType('TEL','CELL') ?? null);

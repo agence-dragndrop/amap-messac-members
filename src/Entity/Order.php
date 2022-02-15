@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\OrderRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -57,12 +59,18 @@ class Order
     private ?\DateTime $updatedAt;
 
     /**
+     * @ORM\OneToMany(targetEntity=OrderDetail::class, mappedBy="purchaseOrder", cascade={"persist", "remove"})
+     */
+    private $orderDetails;
+
+    /**
      * Order constructor.
      * @param \DateTime $createdAt
      */
     public function __construct()
     {
         $this->createdAt = new \DateTime();
+        $this->orderDetails = new ArrayCollection();
     }
 
 
@@ -143,7 +151,7 @@ class Order
         return $this->file;
     }
 
-    public function setFile(string $file): self
+    public function setFile(?string $file): self
     {
         $this->file = $file;
 
@@ -158,6 +166,36 @@ class Order
     public function setUpdatedAt(?\DateTime $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|OrderDetail[]
+     */
+    public function getOrderDetails(): Collection
+    {
+        return $this->orderDetails;
+    }
+
+    public function addOrderDetail(OrderDetail $orderDetail): self
+    {
+        if (!$this->orderDetails->contains($orderDetail)) {
+            $this->orderDetails[] = $orderDetail;
+            $orderDetail->setPurchaseOrder($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderDetail(OrderDetail $orderDetail): self
+    {
+        if ($this->orderDetails->removeElement($orderDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($orderDetail->getPurchaseOrder() === $this) {
+                $orderDetail->setPurchaseOrder(null);
+            }
+        }
 
         return $this;
     }

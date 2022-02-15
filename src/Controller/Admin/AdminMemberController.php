@@ -19,11 +19,21 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class AdminMemberController extends AbstractController
 {
+    private MemberRepository $memberRepository;
+
+    /**
+     * AdminMemberController constructor.
+     * @param MemberRepository $memberRepository
+     */
+    public function __construct(MemberRepository $memberRepository)
+    {
+        $this->memberRepository = $memberRepository;
+    }
+
     /**
      * @Route("/", name="index", methods={"GET", "POST"})
      */
     public function index(
-        MemberRepository $memberRepository,
         Request $request,
         AdminMember $adminMember
     ): Response
@@ -38,7 +48,7 @@ class AdminMemberController extends AbstractController
             $adminMember->import($form->get('file')->getData());
         }
         return $this->renderForm('admin/admin_member/index.html.twig', [
-            'members' => $memberRepository->findAll(),
+            'members' => $this->memberRepository->findAll(),
             'form' => $form
         ]);
     }
@@ -66,7 +76,7 @@ class AdminMemberController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="show", methods={"GET"})
+     * @Route("/{id<\d+>}", name="show", methods={"GET"})
      */
     public function show(Member $member): Response
     {
@@ -106,5 +116,19 @@ class AdminMemberController extends AbstractController
         }
 
         return $this->redirectToRoute('admin_member_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    /**
+     * @param int $id
+     * @return Response
+     * @Route("/search", name="search")
+     */
+    public function widgetListMembers(Request $request): Response
+    {
+
+        return $this->render('admin/admin_member/_list_members.html.twig', [
+            'members' => $this->memberRepository->searchMember($request->get('search')),
+            'order_detail_id' => $request->get('orderDetailId')
+        ]);
     }
 }

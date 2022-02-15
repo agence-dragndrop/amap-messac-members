@@ -94,9 +94,15 @@ class Member
      */
     private $groups;
 
+    /**
+     * @ORM\OneToMany(targetEntity=OrderDetail::class, mappedBy="member")
+     */
+    private $orderDetails;
+
     public function __construct()
     {
         $this->groups = new ArrayCollection();
+        $this->orderDetails = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -292,6 +298,36 @@ class Member
     public function removeGroup(MemberGroup $group): self
     {
         $this->groups->removeElement($group);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|OrderDetail[]
+     */
+    public function getOrderDetails(): Collection
+    {
+        return $this->orderDetails;
+    }
+
+    public function addOrderDetail(OrderDetail $orderDetail): self
+    {
+        if (!$this->orderDetails->contains($orderDetail)) {
+            $this->orderDetails[] = $orderDetail;
+            $orderDetail->setMember($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderDetail(OrderDetail $orderDetail): self
+    {
+        if ($this->orderDetails->removeElement($orderDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($orderDetail->getMember() === $this) {
+                $orderDetail->setMember(null);
+            }
+        }
 
         return $this;
     }

@@ -1,0 +1,22 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block body %}
+    {% include 'admin/_include/previous-btn.html.twig' with {'link': path('admin_order_index')} %}
+    <div class="row mb-4">
+        <div class="col-lg-6">
+            <div class="p-3 bg-light mb-4">
+                <h1>{{ order.name }}</h1>
+                <p>Date de livraison : <strong>{{ order.deliveryDate|date("m/d/Y") }}</strong></p>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            {{ include('order/_form.html.twig') }}
+        </div>
+    </div>
+    {{ render(controller('App\\Controller\\Admin\\AdminOrderController::mapOrderToMember', {'id': order.id})) }}
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+

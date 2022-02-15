@@ -1,0 +1,103 @@
+<h2>Détail de la commande</h2>
+<div class="table-responsive-md w-100">
+    <table class="table table-striped table-hover">
+        <tr>
+            <th></th>
+            <th>Nom prénom</th>
+            <th>Lié à l'adhérent</th>
+            <th>Détail</th>
+            <th>Montant</th>
+        </tr>
+        <tbody>
+        {% set exclude_keys = [
+            'FULLNAME',
+            'Rgt',
+            'Euros',
+            'Total',
+            'member'
+        ] %}
+        {% for order_detail in order.orderDetails %}
+            <tr>
+                <td>{{ order_detail.identifier }}</td>
+                <td>{{ order_detail.fullName }}</td>
+                <td data-widget-link="{{ order_detail.id }}">
+                    {% include 'admin/admin_order/_widget_link_member.html.twig' %}
+                </td>
+                <td>
+                    <ul class="list-unstyled ">
+                        {# {% for key, value in data|filter( #}
+                        {# (value, key) => key not in exclude_keys and value != '') %} #}
+                        {# <li>{{ value }} : {{ key }}</li> #}
+                        {# {% endfor %} #}
+                    </ul>
+                </td>
+                <td><strong>{{ order_detail.amount }}</strong> €</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+<script>
+    const searchMember = (elem, search) => {
+        const autocomplete = document.getElementById(elem.getAttribute('data-target'));
+        const orderDetailId = elem.getAttribute('data-order-detail-id');
+        fetch('{{ path('admin_member_search') }}?search=' + search + "&orderDetailId=" + orderDetailId)
+            .then(response => response.text())
+            .then(html => {
+                autocomplete.innerHTML = html;
+                const members = autocomplete.querySelectorAll('a');
+                members.forEach((elem) => {
+                    elem.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        fetchWidgetLinkMember(e.target.getAttribute('href'), orderDetailId);
+                    })
+                })
+            })
+    }
+    const fetchWidgetLinkMember = (url, orderDetailId) => {
+        fetch(url)
+            .then(response => response.text())
+            .then(html => {
+                document.querySelector("[data-widget-link='"+ orderDetailId +"']").innerHTML = html;
+                initWidgetsListener();
+            })
+    }
+    let timer;
+    const initWidgetsListener = () => {
+        const inputsSearch = document.querySelectorAll('[data-search-member]');
+        inputsSearch.forEach((input) => {
+            input.addEventListener("keyup", (event) => {
+                if (event.key === 'Escape') {
+                    resetAutoComplete();
+                    return;
+                }
+                let search = event.target.value;
+                if (search !== "") {
+                    clearTimeout(timer);
+                    timer = setTimeout(function () {
+                        searchMember(event.target, search);
+                    }, 300);
+                }
+            });
+        })
+        const btnsUnlinkMember = document.querySelectorAll('[data-unlink-member]');
+        for (let btn of btnsUnlinkMember) {
+            btn.addEventListener("click", (event) => {
+                fetchWidgetLinkMember(event.target.getAttribute('data-unlink-member'), event.target.getAttribute("data-order-detail-id"));
+            })
+        }
+    }
+    document.addEventListener("DOMContentLoaded", () => {
+        initWidgetsListener();
+    })
+    const resetAutoComplete = () => {
+        document.querySelectorAll("[data-autocomplete]").forEach((e) => {
+            e.innerHTML = "";
+        })
+    }
+    document.querySelector('body').addEventListener('click', (e) => {
+        resetAutoComplete();
+    });
+</script>

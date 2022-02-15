@@ -1,0 +1,12 @@
+{% macro make_link(link, class = "", active_class = "active") %}
+    {% set print_link = true %}
+    {% if link.granted %}
+        {% if is_granted(link.granted) != 'true' %}
+            {% set print_link = false %}
+        {% endif %}
+    {% endif %}
+    {% if print_link %}
+        <a class="{{ class }} {{ app.request.pathinfo == path(link.path) ? active_class }}"
+           href="{{ path(link.path) }}">{{ link.title }}</a>
+    {% endif %}
+{% endmacro %}

@@ -19,6 +19,38 @@ class MemberRepository extends ServiceEntityRepository
         parent::__construct($registry, Member::class);
     }
 
+    public function findMembersByFullName(string $fullName, bool $fetchOne = true)
+    {
+        $fullName = explode(" ", $fullName);
+        $lastName = $fullName[0];
+        $firstName = $fullName[1] ?? null;
+        $query = $this->createQueryBuilder("m")
+            ->andWhere("m.lastName LIKE :lastName")
+            ->setParameter("lastName", "%" . $lastName . "%");
+        if ($firstName) {
+            $query->andWhere("m.firstName LIKE :firstName")
+                ->setParameter("firstName", "%" . $firstName . "%");
+        }
+        if ($fetchOne) {
+            return $query->getQuery()
+                ->getOneOrNullResult();
+        } else {
+            return $query->getQuery()
+                ->getResult();
+        }
+    }
+
+    public function searchMember(string $search)
+    {
+        return $this->createQueryBuilder("m")
+            ->andWhere("m.firstName LIKE :firstname")
+            ->orWhere("m.lastName LIKE :lastname")
+            ->setParameter("firstname", "%" . $search . "%")
+            ->setParameter("lastname", "%" . $search . "%")
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Member[] Returns an array of Member objects
     //  */
