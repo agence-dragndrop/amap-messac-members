@@ -3,14 +3,13 @@
 namespace App\Controller\User;
 
 use App\Entity\Order;
-use App\Form\OrderType;
 use App\Repository\OrderDetailRepository;
 use App\Repository\OrderRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\CodePointString;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
 /**
  * @Route("/mes-commandes", name="order_")
@@ -32,41 +31,21 @@ class OrderController extends AbstractController
     }
 
     /**
-     * @Route("/edit/{id}", name="edit")
+     * @param Order $order
+     * @param OrderDetailRepository $detailRepository
+     * @return Response
+     * @Route("/download-csv/{id}.csv", name="download_csv")
      */
-    public function edit(Order $order, Request $request, EntityManagerInterface $entityManager): Response
+    public function downloadCsv(Order $order, OrderDetailRepository $detailRepository): Response
     {
-        $form = $this->createForm(OrderType::class, $order);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
-            $this->addFlash("success", "La commande a bien été mise à jour");
-        }
-
-        return $this->renderForm("order/edit.html.twig", [
-            'form' => $form,
+        $order->details = $detailRepository->findOrderDetailByMember($this->getUser(), $order);
+        $csv = $this->renderView("order/csv.csv.twig", [
             'order' => $order
         ]);
-    }
-
-    /**
-     * @param Request $request
-     * @Route("/nouvelle-commande", name="new")
-     */
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $order = new Order();
-        $form = $this->createForm(OrderType::class, $order);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($order);
-            $entityManager->flush();
-            return $this->redirectToRoute('order_index');
-        }
-
-        return $this->renderForm('order/new.html.twig', [
-            'form' => $form
-        ]);
+        $fileName = strtolower($order->getName()) . ".csv";
+        $response = new Response($csv);
+        $response->headers->set('Content-Type', 'text/csv; charset=utf-8');
+        $response->headers->set('Content-Disposition', 'attachment; filename="' . $fileName . '"');
+        return $response;
     }
 }

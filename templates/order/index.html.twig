@@ -49,10 +49,14 @@
                         {% endfor %}
                     </div>
                     <div class="text-end">
-                        <button class="btn btn-sm btn-primary">
+                        <a href="#" class="btn btn-sm btn-primary d-print-none" onclick="window.print()">
+                            <i class="bi bi-printer-fill"></i>
+                            imprimer
+                        </a>
+                        <a href="{{ path('order_download_csv', {'id': order.id}) }}" class="btn btn-sm btn-primary d-print-none">
                             <i class="bi bi-download"></i>
                             télécharger
-                        </button>
+                        </a>
                     </div>
                 </div>
                 <div class="card-footer text-end">

@@ -1,0 +1,11 @@
+{{ order.name }}
+
+{% for detail in order.details %}
+{{ detail.fullName }}
+{% for key, value in detail.content|filter(value => value != '') %}
+{{ key }};{{ value }}
+{% endfor %}
+Montant;{{ detail.amount }}
+
+
+{% endfor %}
