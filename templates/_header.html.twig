@@ -30,13 +30,28 @@
                                role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="bi bi-person-circle"></i>
                                 {% if is_granted('ROLE_USER_VERIFIED') %}
-                                {{ app.user.member.firstName }}
+                                    {{ app.user.member.firstName }}
                                 {% endif %}
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
                                 <li>{{ mc_nav.make_link(navigation.link('user_account'), 'dropdown-item') }}</li>
-                                <li><a class="dropdown-item" href="{{ path('app_logout') }}"><i class="bi bi-box-arrow-right"></i>
-                                        Déconnexion</a>
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <li>
+                                        <a class="dropdown-item d-flex" href="{{ path('admin_home_index') }}" target="_blank">
+                                            <i class="bi bi-lock"></i>
+                                            Admin
+                                            <i class="ms-auto bi bi-box-arrow-up-right"></i>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ path('app_logout') }}">
+                                        <i class="bi bi-box-arrow-right"></i>
+                                        Déconnexion
+                                    </a>
                                 </li>
                             </ul>
                         </li>

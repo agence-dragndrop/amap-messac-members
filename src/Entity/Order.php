@@ -51,7 +51,7 @@ class Order
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private ?string $file = '';
+    private ?string $file = null;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)

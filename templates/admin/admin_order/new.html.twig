@@ -1,6 +1,6 @@
 {% extends 'admin/base.html.twig' %}
 
 {% block body %}
-    <h1>New Order</h1>
-    {{ include('order/_form.html.twig') }}
+    <h1>Nouvelle commande</h1>
+    {% include 'admin/admin_order/_form.html.twig' with {'button_save': 'Créer'} %}
 {% endblock %}

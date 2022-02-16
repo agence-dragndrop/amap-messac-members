@@ -14,6 +14,10 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class AdminOrder
 {
+    public const EXCLUDE_COLUMNS = [
+        "FULLNAME",
+        "AMOUNT"
+    ];
     private MemberRepository $memberRepository;
     private OrderDetailRepository $detailRepository;
     private EntityManagerInterface $entityManager;
@@ -43,6 +47,9 @@ class AdminOrder
     public function mapMember(Order $order)
     {
         $file = $order->getFile();
+        if (null === $file) {
+            return;
+        }
         $filePath = $this->parameterBag->get('order_file_dir') . "/" . $file;
         $context = [
             CsvEncoder::DELIMITER_KEY => ';',
@@ -71,10 +78,19 @@ class AdminOrder
             $orderDetail
                 ->setFullName($data['FULLNAME'])
                 ->setPurchaseOrder($order)
-                ->setAmount((float)str_replace(",", ".", $data['Euros']))
-                ->setContent('');
+                ->setAmount((float)str_replace(",", ".", $data['AMOUNT']))
+                ->setContent($this->setContent($data));
         }
         $this->entityManager->flush();
+    }
+
+    private function setContent(array $data)
+    {
+        $content = $data;
+        foreach (self::EXCLUDE_COLUMNS as $COLUMN) {
+            unset($content[$COLUMN]);
+        }
+        return $content;
     }
 }
 

@@ -1,7 +1,15 @@
 controllers:
     resource: '../../src/Controller/**/*'
-    exclude: '../../src/Controller/Admin/'
+    exclude:
+        - '../../src/Controller/Admin/'
+        - '../../src/Controller/User/'
     type: annotation
+    name_prefix: ''
+
+user:
+    resource: '../../src/Controller/User/'
+    type: annotation
+    prefix: '/user'
     name_prefix: ''
 
 admin:

@@ -3,5 +3,64 @@
 {% block title %}Hello OrderController!{% endblock %}
 
 {% block body %}
+    {% for order in orders %}
+        <section class="mb-5">
+            <div class="card shadow">
+                <div class="card-header fw-bold">
+                    {{ order.name }} du {{ order.deliveryDate|date("m/d/Y") }}
+                </div>
+                <div class="card-body">
+                    <div class="grid-wrapper mb-2">
+                        {% set total = 0 %}
+                        {% for detail in order.details %}
+                            {% set total = total + detail.amount %}
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row h-100">
+                                        <div class="col-lg-6 d-flex flex-column order-1">
+                                            <p class="mb-0">Identifiant du lot</p>
+                                            <h5 class="card-title">{{ detail.fullName }}</h5>
+                                            <div class="mt-auto text-end">
+                                                <p class="mb-0">Montant</p>
+                                                <h5 class="card-title bg-info p-2 mb-0">{{ detail.amount }} €</h5>
+                                            </div>
+
+
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <h5>Composition du lot</h5>
+                                            <div class="table-responsive w-100">
+                                                <table class="table table-striped table-sm mb-0">
+                                                    <tbody>
+                                                    {% for key, value in detail.content|filter(value => value != '') %}
+                                                        <tr>
+                                                            <th class="w-50">{{ key }}</th>
+                                                            <td class="w-50">{{ value }}</td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="text-end">
+                        <button class="btn btn-sm btn-primary">
+                            <i class="bi bi-download"></i>
+                            télécharger
+                        </button>
+                    </div>
+                </div>
+                <div class="card-footer text-end">
+                    Montant total : <strong>{{ total }} €</strong>
+
+                </div>
+            </div>
+        </section>
+    {% endfor %}
 
 {% endblock %}

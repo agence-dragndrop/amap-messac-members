@@ -6,11 +6,20 @@
         <div class="col-lg-6">
             <div class="p-3 bg-light mb-4">
                 <h1>{{ order.name }}</h1>
-                <p>Date de livraison : <strong>{{ order.deliveryDate|date("m/d/Y") }}</strong></p>
+                <p>Date de livraison
+                    <br>
+                    <strong>{{ order.deliveryDate|date("m/d/Y") }}</strong>
+                </p>
+                {% if order.file != 'null' %}
+                <p>Fichier csv téléchargé
+                    <br>
+                    <a href="{{ order.file }}" download="">{{ order.file }}</a>
+                </p>
+                {% endif %}
             </div>
         </div>
         <div class="col-lg-6">
-            {{ include('order/_form.html.twig') }}
+            {{ include('admin/admin_order/_form.html.twig') }}
         </div>
     </div>
     {{ render(controller('App\\Controller\\Admin\\AdminOrderController::mapOrderToMember', {'id': order.id})) }}

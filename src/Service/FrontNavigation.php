@@ -6,11 +6,12 @@ class FrontNavigation
 {
     public const NAVIGATION = [
         ["title" => "Accueil", "path" => "home", "granted" => ""],
-        ["title" => "Les commandes", "path" => "order_index", "granted" => "ROLE_USER_VERIFIED"],
+        ["title" => "Mes commandes", "path" => "order_index", "granted" => "ROLE_USER_VERIFIED"],
         ["title" => "Connexion", "path" => "login", "granted" => ""],
         ["title" => "S'inscrire", "path" => "app_register", "granted" => ""],
         ["title" => "Mon compte", "path" => "user_account", "granted" => ""],
         ["title" => "Déconnexion", "path" => "app_logout", "granted" => ""],
+        ["title" => "Admin", "path" => "admin_home_index", "granted" => "ROLE_ADMIN"],
     ];
 
     public function links()

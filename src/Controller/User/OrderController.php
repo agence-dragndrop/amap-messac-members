@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\User;
 
 use App\Entity\Order;
 use App\Form\OrderType;
+use App\Repository\OrderDetailRepository;
 use App\Repository\OrderRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -12,17 +13,21 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/commandes", name="order_")
+ * @Route("/mes-commandes", name="order_")
  */
 class OrderController extends AbstractController
 {
     /**
      * @Route("/", name="index")
      */
-    public function index(OrderRepository $orderRepository): Response
+    public function index(OrderDetailRepository $detailRepository, OrderRepository $orderRepository): Response
     {
+        $orders = $orderRepository->findUserOrders($this->getUser());
+        foreach ($orders as $order) {
+            $order->details = $detailRepository->findOrderDetailByMember($this->getUser(), $order);
+        }
         return $this->render('order/index.html.twig', [
-            'orders' => $orderRepository->findAll(),
+            'orders' => $orders
         ]);
     }
 

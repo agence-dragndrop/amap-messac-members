@@ -15,22 +15,22 @@ class OrderDetail
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="json", nullable=true)
      */
-    private $content;
+    private ?array $content;
 
     /**
      * @ORM\Column(type="float", nullable=true)
      */
-    private $amount;
+    private ?float $amount;
 
     /**
      * @ORM\ManyToOne(targetEntity=Order::class, inversedBy="orderDetails")
      */
-    private $purchaseOrder;
+    private ?Order $purchaseOrder;
 
     /**
      * @ORM\ManyToOne(targetEntity=Member::class, inversedBy="orderDetails")
@@ -40,12 +40,12 @@ class OrderDetail
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $identifier;
+    private string $identifier;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $fullName;
+    private string $fullName;
 
 
     public function getId(): ?int
@@ -53,12 +53,12 @@ class OrderDetail
         return $this->id;
     }
 
-    public function getContent(): ?string
+    public function getContent(): ?array
     {
         return $this->content;
     }
 
-    public function setContent(?string $content): self
+    public function setContent(?array $content): self
     {
         $this->content = $content;
 

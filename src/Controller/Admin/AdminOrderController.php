@@ -55,6 +55,7 @@ class AdminOrderController extends AbstractController
             $order->setUpdatedAt(new \DateTime());
             $this->entityManager->flush();
             $this->addFlash("success", "La commande a bien été mise à jour.");
+            return $this->redirectToRoute('admin_order_edit', ['id' => $order->getId()]);
         }
 
         return $this->renderForm("admin/admin_order/edit.html.twig", [
@@ -117,7 +118,7 @@ class AdminOrderController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="delete", methods={"POST"})
+     * @Route("/delete/{id}", name="delete", methods={"POST"})
      */
     public function delete(Request $request, Order $order, EntityManagerInterface $entityManager): Response
     {
@@ -127,5 +128,35 @@ class AdminOrderController extends AbstractController
         }
 
         return $this->redirectToRoute('admin_order_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    /**
+     * @Route("/delete-links/{id}", name="delete_links", methods={"POST"})
+     */
+    public function deleteLinks(Request $request, Order $order, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$order->getId(), $request->request->get('_token'))) {
+            foreach ($order->getOrderDetails() as $orderDetail) {
+                $entityManager->remove($orderDetail);
+            }
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('admin_order_edit', ['id' => $order->getId()], Response::HTTP_SEE_OTHER);
+    }
+
+    /**
+     * @Route("/remove-links/{id}", name="remove_links", methods={"POST"})
+     */
+    public function removeLinks(Request $request, Order $order, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$order->getId(), $request->request->get('_token'))) {
+            foreach ($order->getOrderDetails() as $orderDetail) {
+                $orderDetail->setMember(null);
+            }
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('admin_order_edit', ['id' => $order->getId()], Response::HTTP_SEE_OTHER);
     }
 }

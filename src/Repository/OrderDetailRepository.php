@@ -2,7 +2,9 @@
 
 namespace App\Repository;
 
+use App\Entity\Order;
 use App\Entity\OrderDetail;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -19,6 +21,16 @@ class OrderDetailRepository extends ServiceEntityRepository
         parent::__construct($registry, OrderDetail::class);
     }
 
+    public function findOrderDetailByMember(User $user, Order $order)
+    {
+        return $this->createQueryBuilder("od")
+            ->andWhere("od.member = :member")
+            ->andWhere("od.purchaseOrder = :order")
+            ->setParameter("member", $user->getMember())
+            ->setParameter("order", $order)
+            ->getQuery()
+            ->getResult();
+    }
     // /**
     //  * @return OrderDetail[] Returns an array of OrderDetail objects
     //  */
