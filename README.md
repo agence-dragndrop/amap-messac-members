@@ -1,8 +1,8 @@
-- [ ] retirer champ date de clôture
+- [x] retirer champ date de clôture
 - [ ] ajouter champ tarification (A, B, etc.)
 - [ ] pièce jointe tarifs en pdf consultables (header card)
-- [ ] ordre des colonnes sur le front
+- [x] ordre des colonnes sur le front
 - [x] retirer champ confirmez votre pot de passe
-- [ ] adapt map_member_to_order process
+- [x] adapt map_member_to_order process
 - [ ] server smtps
 - [x] widget show password (form login, connexion)
