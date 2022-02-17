@@ -17,87 +17,87 @@ class Member
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\OneToOne(targetEntity=User::class, inversedBy="member", cascade={"persist", "remove"})
      */
-    private $user;
+    private ?User $user = null;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isActive;
+    private bool $isActive = true;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $email;
+    private ?string $email;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $firstName;
+    private ?string $firstName;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $lastName;
+    private ?string $lastName;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $updatedAt;
+    private ?\DateTimeInterface $updatedAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $createdAt;
+    private ?\DateTimeInterface $createdAt;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $phone1;
+    private ?string $phone1;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $phone2;
+    private ?string $phone2;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $mobile1;
+    private ?string $mobile1;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $mobile2;
+    private ?string $mobile2;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $address;
+    private ?string $address;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $zip;
+    private ?string $zip;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $city;
+    private ?string $city;
 
     /**
      * @ORM\ManyToMany(targetEntity=MemberGroup::class, inversedBy="members")
      */
-    private $groups;
+    private ?Collection $groups;
 
     /**
      * @ORM\OneToMany(targetEntity=OrderDetail::class, mappedBy="member")
      */
-    private $orderDetails;
+    private ?Collection $orderDetails;
 
     public function __construct()
     {
