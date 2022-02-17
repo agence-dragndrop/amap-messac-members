@@ -1,0 +1,21 @@
+{% extends 'layout/card-center.html.twig' %}
+
+{% block title %}Réinitialisation du mot de passe{% endblock %}
+
+{% block content %}
+    {% for flashError in app.flashes('reset_password_error') %}
+        <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+    {% endfor %}
+    <h1>Réinitialiser votre mot de passe</h1>
+
+    {{ form_start(requestForm) }}
+        {{ form_row(requestForm.email) }}
+        <p>
+            <small>
+                Saisissez votre e-mail et nous vous enverrons un lien de réinitialisation.
+            </small>
+        </p>
+
+        <button class="btn btn-primary">Envoyer le lien</button>
+    {{ form_end(requestForm) }}
+{% endblock %}

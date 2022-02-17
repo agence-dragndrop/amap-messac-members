@@ -1,5 +1,10 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
+    form_themes: ['bootstrap_5_layout.html.twig']
+    globals:
+        mailer_contact: '%mailer_contact%'
+        mailer_from: '%mailer_from%'
+        navigation: '@App\Service\FrontNavigation'
 
 when@test:
     twig:

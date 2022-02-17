@@ -1,0 +1,20 @@
+{% extends 'admin/layout/card-center.html.twig' %}
+
+{% block content %}
+    <h1>{{ order.name }}</h1>
+    <p>Date de livraison
+        <br>
+        <strong>{{ order.deliveryDate|date("m/d/Y") }}</strong>
+    </p>
+    {{ form_start(form) }}
+    {{ form_row(form.file) }}
+    <button class="btn btn-success">
+        <i class="bi bi-upload"></i>
+        télécharger et synchroniser
+    </button>
+    <a class="btn btn-warning" href="{{ path('admin_order_edit', {'id': order.id}) }}">
+        passer cette étape
+        <i class="bi bi-arrow-right"></i>
+    </a>
+    {{ form_end(form) }}
+{% endblock %}

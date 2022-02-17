@@ -1,0 +1,24 @@
+{% set member = order_detail.member ?
+    order_detail.member.lastName ~ " " ~ order_detail.member.firstName
+    : '' %}
+{% if order_detail.member %}
+    <button class="btn btn-info"
+            data-order-detail-id="{{ order_detail.id }}"
+            data-unlink-member="{{ path('admin_order_link_member', {
+        'memberId': order_detail.member.id,
+        'orderDetailId': order_detail.id,
+        'action': 'unlink'
+    }) }}">
+        {{ order_detail.member.lastName }} {{ order_detail.member.firstName }}
+        <i class="bi bi-link-45deg"></i>
+    </button>
+{% else %}
+    <div class="position-relative">
+        <input type="text" class="form-control"
+               data-search-member=""
+               data-order-detail-id="{{ order_detail.id }}"
+               data-target="autocomplete{{ order_detail.id }}">
+        <div class="list-group position-absolute start-0 end-0 shadow z-index-1" data-autocomplete=""
+             id="autocomplete{{ order_detail.id }}"></div>
+    </div>
+{% endif %}

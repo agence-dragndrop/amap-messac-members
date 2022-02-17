@@ -1,0 +1,29 @@
+{% extends 'layout/card-center.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+    <h1>Créer un compte</h1>
+    <p>Merci de renseigner les informations ci-dessous.</p>
+
+    {% for flash_error in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
+
+    {{ form_start(registrationForm) }}
+    {{ form_row(registrationForm.email) }}
+    <div class=" mb-3">
+        {{ form_label(registrationForm.plainPassword) }}
+        <div class="input-group">
+            {{ form_widget(registrationForm.plainPassword) }}
+            <button class="btn btn-outline-primary" type="button"
+                    data-toggle-password="#registration_form_plainPassword">
+                <i class="bi bi-eye-fill d-none" data-eye="show"></i>
+                <i class="bi bi-eye-slash-fill" data-eye="slash"></i>
+            </button>
+        </div>
+        {{ form_errors(registrationForm.plainPassword) }}
+    </div>
+    <button type="submit" class="btn btn-primary">S'inscrire</button>
+    {{ form_end(registrationForm) }}
+{% endblock %}

@@ -1,0 +1,8 @@
+.grid-wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, calc(100%/3 - 1rem));
+  gap: 1.5rem;
+  @include media-breakpoint-down(lg){
+    grid-template-columns: 1fr;
+  }
+}

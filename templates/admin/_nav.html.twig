@@ -1,0 +1,41 @@
+<nav class="main-nav" id="nav">
+    <button class="close-main-nav navbar-toggler text-white"><i class="bi bi-x-lg"></i></button>
+    <span class="fs-4">Admin</span>
+    <hr>
+    <ul class="nav nav-pills flex-column mb-auto">
+        <li class="nav-item">
+            <a href="{{ path('home') }}" class="nav-link text-white" target="_blank" data-no-swup="">
+                <small>Aller sur l'interface</small> <i class="bi bi-box-arrow-up-right"></i>
+            </a>
+        </li>
+        {% set links = [
+            {'title': 'Accueil', 'path': 'admin_home_index'},
+            {'title': 'Commandes', 'path': 'admin_order_index'},
+            {'title': 'Adhérents', 'path': 'admin_member_index'},
+            {'title': 'Comptes', 'path': 'admin_user_index'},
+        ] %}
+        {% for link in links %}
+        <li class="nav-item">
+            <a href="{{ path(link.path) }}"
+               class="nav-link {{ app.request.pathInfo == path(link.path) ? 'active' : 'text-white' }}">
+                {{ link.title }}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+    <hr>
+    <div class="dropdown">
+        <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+            <strong>mdo</strong>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1" style="">
+            <li><a class="dropdown-item" href="#">New project...</a></li>
+            <li><a class="dropdown-item" href="#">Settings</a></li>
+            <li><a class="dropdown-item" href="#">Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Sign out</a></li>
+        </ul>
+    </div>
+
+</nav>

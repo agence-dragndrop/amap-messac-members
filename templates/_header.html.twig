@@ -1,0 +1,70 @@
+{% import '_macros/navigation.html.twig' as mc_nav %}
+
+<nav class="navbar navbar-expand-lg bg-primary fixed-top shadow p-3 d-print-none" id="nav">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+                aria-controls="offcanvasNavbar">
+            <i class="bi bi-list"></i>
+        </button>
+        <div class="offcanvas offcanvas-start bg-primary" tabindex="-1" id="offcanvasNavbar"
+             aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Navigation</h5>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                        aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <ul class="navbar-nav align-items-lg-center w-100">
+                    {% set links = [
+                        {'path': 'home'},
+                    ] %}
+                    {% for link in links %}
+                        <li class="nav-item">
+                            {{ mc_nav.make_link(navigation.link(link.path), 'nav-link') }}
+                        </li>
+                    {% endfor %}
+                    {% if is_granted('ROLE_USER') %}
+                        <li class="nav-item dropdown ms-lg-auto">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
+                               role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-person-circle"></i>
+                                {% if is_granted('ROLE_USER_VERIFIED') %}
+                                    {{ app.user.member.firstName }}
+                                {% endif %}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+                                <li>{{ mc_nav.make_link(navigation.link('user_account'), 'dropdown-item') }}</li>
+                                <li>{{ mc_nav.make_link(navigation.link('order_index'), 'dropdown-item') }}</li>
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <li>
+                                        <a class="dropdown-item d-flex" href="{{ path('admin_home_index') }}" target="_blank">
+                                            <i class="bi bi-lock"></i>
+                                            Admin
+                                            <i class="ms-auto bi bi-box-arrow-up-right"></i>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ path('app_logout') }}">
+                                        <i class="bi bi-box-arrow-right"></i>
+                                        Déconnexion
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    {% else %}
+                        <li class="nav-item ms-lg-auto">
+                            {{ mc_nav.make_link(navigation.link('login'), 'nav-link') }}
+                        </li>
+                        <li class="nav-item">
+                            {{ mc_nav.make_link(navigation.link('app_register'), 'nav-link') }}
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>

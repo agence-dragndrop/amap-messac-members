@@ -1,0 +1,24 @@
+body {
+  @media screen {
+    padding-top: 100px;
+  }
+}
+
+.bg-info {
+  color: color-contrast($info);
+}
+
+.bg-opacity-90 {
+  --bs-bg-opacity: .90;
+}
+
+.bg-image {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-position: top center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}

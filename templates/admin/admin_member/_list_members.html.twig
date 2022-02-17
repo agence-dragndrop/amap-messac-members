@@ -1,0 +1,11 @@
+{% for member in members %}
+    <a href="{{ path('admin_order_link_member', {
+        'memberId': member.id,
+        'orderDetailId': order_detail_id,
+        'action': 'link'
+    }) }}"
+       data-order-detail-id="{{ order_detail_id }}"
+       data-id="{{ member.id }}" class="list-group-item list-group-item-action">
+        {{ member.lastName }} {{ member.firstName }}
+    </a>
+{% endfor %}
