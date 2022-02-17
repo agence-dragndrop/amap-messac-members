@@ -9,7 +9,7 @@
                 <div class="col-md-10 offset-md-1">
                     <div class="p-3 p-md-5 bg-light rounded shadow">
                         {% if is_granted('ROLE_USER_VERIFIED') %}
-                        <h1>Bonjour {{ app.user.member.firstName }} !</h1>
+                        <h1>Bonjour {{ app.user.member.firstName }}</h1>
                         <p>Bienvenue sur votre compte.</p>
                         <p>
                             Vous pouvez vérifier vos informations ci-dessous.
@@ -62,9 +62,13 @@
                             <a href="{{ path('resend_email_confirmation') }}">Renvoyer le lien</a>
                         {% endif %}
                         <div class="d-flex">
-                            <a class="btn btn-danger ms-auto" href="{{ path('app_logout') }}">
-                                <i class="bi bi-box-arrow-right"></i> Déconnexion
+                            <a class="btn btn-primary" href="{{ path('order_index') }}">
+                                <i class="bi bi-basket-fill"></i>
+                                voir mes commandes
                             </a>
+{#                            <a class="btn btn-danger ms-auto" href="{{ path('app_logout') }}">#}
+{#                                <i class="bi bi-box-arrow-right"></i> Déconnexion#}
+{#                            </a>#}
                         </div>
                     </div>
 

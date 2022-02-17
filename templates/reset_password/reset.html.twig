@@ -1,12 +1,22 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout/card-center.html.twig' %}
 
-{% block title %}Reset your password{% endblock %}
+{% block title %}Réinitialisation du mot de passe{% endblock %}
 
-{% block body %}
-    <h1>Reset your password</h1>
+{% block content %}
+    <h1>Réinitialiser votre mot de passe</h1>
 
     {{ form_start(resetForm) }}
-        {{ form_row(resetForm.plainPassword) }}
-        <button class="btn btn-primary">Reset password</button>
+    <div class=" mb-3">
+        {{ form_label(resetForm.plainPassword) }}
+        <div class="input-group">
+            {{ form_widget(resetForm.plainPassword) }}
+            <button class="btn btn-outline-primary" type="button"
+                    data-toggle-password="#change_password_form_plainPassword">
+                <i class="bi bi-eye-fill d-none" data-eye="show"></i>
+                <i class="bi bi-eye-slash-fill" data-eye="slash"></i>
+            </button>
+        </div>
+    </div>
+        <button class="btn btn-primary">Confirmer</button>
     {{ form_end(resetForm) }}
 {% endblock %}

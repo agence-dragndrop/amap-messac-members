@@ -44,7 +44,7 @@ class AdminOrder
         $this->serializer = $serializer;
     }
 
-    public function mapMember(Order $order)
+    public function mapMember(Order $order): void
     {
         $file = $order->getFile();
         if (null === $file) {

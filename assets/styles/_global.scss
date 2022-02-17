@@ -7,3 +7,7 @@ body {
 .bg-info {
   color: color-contrast($info);
 }
+
+.bg-opacity-90 {
+  --bs-bg-opacity: .90;
+}

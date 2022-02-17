@@ -93,7 +93,7 @@ class AdminOrderController extends AbstractController
         Order $order,
         AdminOrder $adminOrder
     ): Response {
-        $adminOrder->mapMember($order);
+//        $adminOrder->mapMember($order);
         return $this->render("admin/admin_order/map_to_member.html.twig", [
             'order' => $order
         ]);

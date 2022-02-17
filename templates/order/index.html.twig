@@ -21,11 +21,9 @@
                                             <p class="mb-0">Identifiant du lot</p>
                                             <h5 class="card-title">{{ detail.fullName }}</h5>
                                             <div class="mt-auto text-end">
-                                                <p class="mb-0">Montant</p>
+                                                <p class="mb-0">Montant TTC</p>
                                                 <h5 class="card-title bg-info p-2 mb-0">{{ detail.amount }} €</h5>
                                             </div>
-
-
                                         </div>
                                         <div class="col-lg-6">
                                             <h5>Composition du lot</h5>
@@ -49,10 +47,6 @@
                         {% endfor %}
                     </div>
                     <div class="text-end">
-                        <a href="#" class="btn btn-sm btn-primary d-print-none" onclick="window.print()">
-                            <i class="bi bi-printer-fill"></i>
-                            imprimer
-                        </a>
                         <a href="{{ path('order_download_csv', {'id': order.id}) }}" class="btn btn-sm btn-primary d-print-none">
                             <i class="bi bi-download"></i>
                             télécharger

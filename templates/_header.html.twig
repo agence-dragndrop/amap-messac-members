@@ -17,7 +17,6 @@
                 <ul class="navbar-nav align-items-lg-center w-100">
                     {% set links = [
                         {'path': 'home'},
-                        {'path': 'order_index'},
                     ] %}
                     {% for link in links %}
                         <li class="nav-item">
@@ -35,6 +34,7 @@
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
                                 <li>{{ mc_nav.make_link(navigation.link('user_account'), 'dropdown-item') }}</li>
+                                <li>{{ mc_nav.make_link(navigation.link('order_index'), 'dropdown-item') }}</li>
                                 {% if is_granted('ROLE_ADMIN') %}
                                     <li>
                                         <a class="dropdown-item d-flex" href="{{ path('admin_home_index') }}" target="_blank">
