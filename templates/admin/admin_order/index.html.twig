@@ -3,6 +3,28 @@
 {% block title %}Hello OrderController!{% endblock %}
 
 {% block body %}
+    <div class="row">
+        <div class="col-lg-6 offset-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Tarifs Orange bio</h5>
+                    {{ form(form) }}
+                    {% if (pdf_file.fileExist) %}
+                        <a href="{{ pdf_file.getPublicPath }}" target="_blank">
+                            {{ pdf_file.filename }}
+                            <i class="ms-auto bi bi-box-arrow-up-right"></i>
+                        </a>
+                        <br>
+                        <a class="btn btn-sm btn-danger"
+                           href="{{ path('admin_order_remove_attachment') }}" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce fichier ?');">
+                            <i class="bi bi-trash-fill"></i>
+                            retirer
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
     <a class="btn btn-primary mb-4" href="{{ path('admin_order_new') }}">
         <i class="bi bi-plus-lg"></i>
         Créer une nouvelle commande
@@ -27,7 +49,7 @@
                     <td>
                         <div class="d-flex justify-content-end">
                             <a class="btn btn-primary me-2"
-                               href="{{ path('admin_order_edit', {"id": order.id}) }}" >
+                               href="{{ path('admin_order_edit', {"id": order.id}) }}">
                                 <i class="bi bi-pencil"></i>
                                 éditer
                             </a>

@@ -10,6 +10,7 @@ use App\Entity\OrderDetail;
 use App\Form\OrderType;
 use App\Repository\OrderRepository;
 use App\Service\AdminOrder;
+use App\Utility\AttachmentFile;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,6 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Encoder\CsvEncoder;
+use Symfony\Component\Validator\Constraints\File;
 
 /**
  * @Route("/commandes", name="order_")
@@ -39,10 +41,45 @@ class AdminOrderController extends AbstractController
     /**
      * @Route("/", name="index")
      */
-    public function index(OrderRepository $orderRepository): Response
-    {
-        return $this->render('admin/admin_order/index.html.twig', [
+    public function index(
+        OrderRepository $orderRepository,
+        Request $request,
+        AttachmentFile $attachmentFile
+    ): Response {
+        $form = $this->createFormBuilder()
+            ->add('file', FileType::class, [
+                'label' => 'Fichier pdf',
+                'help' => 'Sélectionner un fichier .pdf sur votre ordinateur.',
+                'constraints' => [
+                    new File([
+                        'mimeTypes' => ["application/pdf", "application/x-pdf"],
+                        'mimeTypesMessage' => "Fichier PDF uniquement"
+                    ])
+                ]
+            ])
+            ->add('submit', SubmitType::class, [
+                'label' => '<i class="bi bi-upload"></i> télécharger',
+                'label_html' => true,
+                'attr' => ['class' => 'btn btn-success']
+            ])
+            ->getForm()
+        ;
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $file = $form->get('file')->getData();
+            if ($file->move($attachmentFile->getFilePath(), $attachmentFile->getFileName())) {
+                $this->addFlash(
+                    "success",
+                    "Le fichier <strong>" . $file->getClientOriginalName() .
+                    "</strong> a bien été téléchargé et renommé pour <strong>"  . $attachmentFile->getFileName() . "</strong>."
+                );
+            }
+            return $this->redirectToRoute('admin_order_index');
+        }
+        return $this->renderForm('admin/admin_order/index.html.twig', [
             'orders' => $orderRepository->findAll(),
+            'form' => $form,
+            'pdf_file' => $attachmentFile
         ]);
     }
 
@@ -176,5 +213,16 @@ class AdminOrderController extends AbstractController
         }
 
         return $this->redirectToRoute('admin_order_edit', ['id' => $order->getId()], Response::HTTP_SEE_OTHER);
+    }
+
+    /**
+     * @Route("/remove-attachment", name="remove_attachment")
+     */
+    public function removeAttachment(AttachmentFile $attachmentFile)
+    {
+        if ($attachmentFile->unlink()) {
+            $this->addFlash("success", 'Le fichier <strong>'. $attachmentFile->getFileName() . '</strong> a bien été retiré');
+        }
+        return $this->redirectToRoute("admin_order_index");
     }
 }

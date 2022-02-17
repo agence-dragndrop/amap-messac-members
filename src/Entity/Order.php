@@ -49,6 +49,11 @@ class Order
     private $orderDetails;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $pricing;
+
+    /**
      * Order constructor.
      * @param \DateTime $createdAt
      */
@@ -138,6 +143,18 @@ class Order
                 $orderDetail->setPurchaseOrder(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPricing(): ?string
+    {
+        return $this->pricing;
+    }
+
+    public function setPricing(?string $pricing): self
+    {
+        $this->pricing = $pricing;
 
         return $this;
     }

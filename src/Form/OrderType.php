@@ -27,6 +27,11 @@ class OrderType extends AbstractType
                 'help' => 'Champ affiché sur l\'interface utilisateur.',
                 'required' => true
             ])
+            ->add('pricing', TextType::class, [
+                'label' => 'Tarif',
+                'help' => 'Tarif appliqué par le producteur (Tarif A, B, C, etc.)',
+                'required' => false
+            ])
         ;
     }
 

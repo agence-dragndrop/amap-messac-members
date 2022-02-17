@@ -3,15 +3,34 @@
 {% block title %}Hello HomeController!{% endblock %}
 
 {% block body %}
+    <div class="bg-image" style="background-image: url('{{ asset('build/images/870x489_gettyimages.jpg') }}')"></div>
     <div class="row">
         <div class="col-md-8 offset-md-2 d-flex flex-column align-items-center position-relative">
-            <img class="img-fluid rounded-3" src="{{ asset('build/images/870x489_gettyimages.jpg') }}" alt="">
-            <div class="card shadow position-absolute top-0 bg-white bg-opacity-90" style="margin-top: 50px; width: 80%">
+            <div class="card shadow position-absolute top-0 bg-white bg-opacity-90"
+                 style="margin-top: 50px; width: 80%">
                 <div class="card-body text-center">
                     <h5 class="card-title ">Bienvenue amapien·ne !</h5>
-                    <p class="card-text">Cet espace est réservé aux adhérents de l'Amap de Messac.</p>
-                    <a class="btn btn-primary" href="{{ path('login') }}">Se connecter</a>
-                    <a class="btn btn-primary" href="{{ path('app_register') }}">Créer un compte</a>
+                    {% if is_granted("ROLE_USER") %}
+                        <p class="card-text">Vous êtes connecté·e avec les compte <strong>{{ app.user.member.email }}</strong>.</p>
+                        <a class="btn btn-primary" href="{{ path('user_account') }}">
+                            <i class="bi bi-person-fill"></i>
+                            Accéder à mon compte
+                        </a>
+                        <a class="btn btn-primary" href="{{ path('order_index') }}">
+                            <i class="bi bi-basket-fill"></i>
+                            Mes commandes
+                        </a>
+                    {% else %}
+                        <p class="card-text">Cet espace est réservé aux adhérents de l'Amap de Messac.</p>
+                        <a class="btn btn-primary" href="{{ path('login') }}">
+                            <i class="bi bi-person-fill"></i>
+                            Se connecter
+                        </a>
+                        <a class="btn btn-primary" href="{{ path('app_register') }}">
+                            <i class="bi bi-person-plus-fill"></i>
+                            Créer un compte
+                        </a>
+                    {% endif %}
                 </div>
             </div>
         </div>

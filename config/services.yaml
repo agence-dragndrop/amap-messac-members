@@ -8,6 +8,8 @@ parameters:
     mailer_from: '%env(MAILER_FROM_ADDRESS)%'
     mailer_from_name: '%env(MAILER_FROM_NAME)%'
     order_file_dir: '%kernel.project_dir%/public/files/orders'
+    attachment_public_dir: '/files/attachment'
+    attachment_dir: '%kernel.project_dir%/public/files/attachment'
 
 services:
     # default configuration for services in *this* file

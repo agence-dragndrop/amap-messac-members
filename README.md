@@ -1,6 +1,6 @@
 - [x] retirer champ date de clôture
-- [ ] ajouter champ tarification (A, B, etc.)
-- [ ] pièce jointe tarifs en pdf consultables (header card)
+- [x] ajouter champ tarification (A, B, etc.)
+- [x] pièce jointe tarifs en pdf consultables (header card)
 - [x] ordre des colonnes sur le front
 - [x] retirer champ confirmez votre pot de passe
 - [x] adapt map_member_to_order process

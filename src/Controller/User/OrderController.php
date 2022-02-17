@@ -5,6 +5,7 @@ namespace App\Controller\User;
 use App\Entity\Order;
 use App\Repository\OrderDetailRepository;
 use App\Repository\OrderRepository;
+use App\Utility\AttachmentFile;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,14 +20,18 @@ class OrderController extends AbstractController
     /**
      * @Route("/", name="index")
      */
-    public function index(OrderDetailRepository $detailRepository, OrderRepository $orderRepository): Response
-    {
+    public function index(
+        OrderDetailRepository $detailRepository,
+        OrderRepository $orderRepository,
+        AttachmentFile $attachmentFile
+    ): Response {
         $orders = $orderRepository->findUserOrders($this->getUser());
         foreach ($orders as $order) {
             $order->details = $detailRepository->findOrderDetailByMember($this->getUser(), $order);
         }
         return $this->render('order/index.html.twig', [
-            'orders' => $orders
+            'orders' => $orders,
+            'tarifs_pdf' => $attachmentFile
         ]);
     }
 
