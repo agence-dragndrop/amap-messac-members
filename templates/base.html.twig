@@ -27,8 +27,23 @@
                 </div>
             {% endfor %}
         {% endfor %}
+        {% if is_granted('IS_ANONYMOUS') or is_granted('ROLE_USER_VERIFIED') %}
         {% block body %}{% endblock %}
-    </div>
+        {% else %}
+        <div class="row">
+            <div class="col-lg-6 offset-lg-3">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <p>Vous y êtes presque :)
+                            <br>
+                            Merci de vérifier votre compte grâce au lien reçu par mail.
+                        </p>
+                        <a href="{{ path('resend_email_confirmation') }}">Renvoyer le lien</a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
 </main>
 {% include "_footer.html.twig" %}
 </body>
