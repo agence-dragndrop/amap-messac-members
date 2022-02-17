@@ -13,6 +13,8 @@ use App\Service\AdminOrder;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -77,7 +79,7 @@ class AdminOrderController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->entityManager->persist($order);
             $this->entityManager->flush();
-            return $this->redirectToRoute('admin_order_edit', ['id' => $order->getId()]);
+            return $this->redirectToRoute('admin_order_map_to_member', ['id' => $order->getId()]);
         }
 
         return $this->renderForm('admin/admin_order/new.html.twig', [
@@ -91,11 +93,27 @@ class AdminOrderController extends AbstractController
      */
     public function mapOrderToMember(
         Order $order,
-        AdminOrder $adminOrder
+        AdminOrder $adminOrder,
+        Request $request
     ): Response {
-//        $adminOrder->mapMember($order);
-        return $this->render("admin/admin_order/map_to_member.html.twig", [
-            'order' => $order
+        $form = $this->createFormBuilder()
+            ->add('file', FileType::class, [
+                'label' => 'Fichier csv',
+                'help' => 'Sélectionner un fichier csv sur votre ordinateur puis valider pour déclencher 
+                la synchronisation automatique des commandes avec les comptes adhérents.'
+            ])
+            ->getForm()
+        ;
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $adminOrder->mapMember($order, $form->get('file')->getData());
+            $order->setUpdatedAt(new \DateTime());
+            $this->entityManager->flush();
+            return $this->redirectToRoute('admin_order_edit', ['id' => $order->getId()]);
+        }
+        return $this->renderForm("admin/admin_order/map_to_member.html.twig", [
+            'order' => $order,
+            'form' => $form
         ]);
     }
 

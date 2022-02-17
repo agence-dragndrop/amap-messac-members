@@ -8,6 +8,7 @@ use App\Repository\MemberRepository;
 use App\Repository\OrderDetailRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Serializer\Encoder\CsvEncoder;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\String\Slugger\AsciiSlugger;
@@ -44,13 +45,12 @@ class AdminOrder
         $this->serializer = $serializer;
     }
 
-    public function mapMember(Order $order): void
+    public function mapMember(Order $order, UploadedFile $file): void
     {
-        $file = $order->getFile();
-        if (null === $file) {
+        if ($file->guessClientExtension() !== 'csv') {
             return;
         }
-        $filePath = $this->parameterBag->get('order_file_dir') . "/" . $file;
+        $filePath = $file->getRealPath();
         $context = [
             CsvEncoder::DELIMITER_KEY => ';',
             CsvEncoder::ENCLOSURE_KEY => '"',

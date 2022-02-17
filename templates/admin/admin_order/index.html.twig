@@ -14,8 +14,6 @@
             <tr>
                 <th>Nom</th>
                 <th>Date de distribution</th>
-                <th>Date de clôture</th>
-                <th>Fichier associé</th>
                 <th>Mise à jour</th>
                 <th></th>
             </tr>
@@ -25,8 +23,6 @@
                 <tr>
                     <td>{{ order.name }}</td>
                     <td>{{ order.deliveryDate ? order.deliveryDate|date('Y-m-d H:i:s') : '' }}</td>
-                    <td>{{ order.endDate ? order.endDate|date('Y-m-d H:i:s') : '' }}</td>
-                    <td>{{ order.file }}</td>
                     <td>{{ order.updatedAt ? order.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                     <td>
                         <div class="d-flex justify-content-end">

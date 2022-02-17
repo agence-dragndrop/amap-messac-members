@@ -41,21 +41,6 @@ class Order
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private ?\DateTime $endDate;
-
-    /**
-     * @Vich\UploadableField(mapping="orders", fileNameProperty="file")
-     */
-    private ?File $uploadFile = null;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private ?string $file = null;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
     private ?\DateTime $updatedAt;
 
     /**
@@ -70,9 +55,9 @@ class Order
     public function __construct()
     {
         $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
         $this->orderDetails = new ArrayCollection();
     }
-
 
     public function getId(): ?int
     {
@@ -111,49 +96,6 @@ class Order
     public function setDeliveryDate(?\DateTime $deliveryDate): self
     {
         $this->deliveryDate = $deliveryDate;
-
-        return $this;
-    }
-
-    public function getEndDate(): ?\DateTime
-    {
-        return $this->endDate;
-    }
-
-    public function setEndDate(?\DateTime $endDate): self
-    {
-        $this->endDate = $endDate;
-
-        return $this;
-    }
-
-    /**
-     * @return File
-     */
-    public function getUploadFile(): ?File
-    {
-        return $this->uploadFile;
-    }
-
-    /**
-     * @param File $uploadFile
-     */
-    public function setUploadFile(?File $uploadFile = null): void
-    {
-        $this->uploadFile = $uploadFile;
-        if (null !== $uploadFile) {
-            $this->updatedAt = new \DateTime();
-        }
-    }
-
-    public function getFile(): ?string
-    {
-        return $this->file;
-    }
-
-    public function setFile(?string $file): self
-    {
-        $this->file = $file;
 
         return $this;
     }
