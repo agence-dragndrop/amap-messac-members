@@ -1,0 +1,22 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-xl-4 mb-4">
+            <div class="position-sticky top-0 p-3 bg-light mb-4">
+                {% block blockLeft %}{% endblock %}
+            </div>
+        </div>
+        {% set _block = block('blockRight') %}
+        {% if _block is not empty %}
+            <div class="col-xl-8 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        {{ _block|raw }}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    {% block content %}{% endblock %}
+{% endblock %}

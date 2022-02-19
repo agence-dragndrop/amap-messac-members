@@ -39,8 +39,10 @@ class AdminMemberController extends AbstractController
     ): Response
     {
         $form = $this->createFormBuilder()
-            ->add('file', FileType::class)
-            ->add('submit', SubmitType::class)
+            ->add('file', FileType::class, [
+                'label' => 'Fichier',
+                'help' => 'Sélectionner un fichier au format .vcard sur votre ordinateur.'
+            ])
             ->getForm()
         ;
         $form->handleRequest($request);
@@ -48,7 +50,7 @@ class AdminMemberController extends AbstractController
             $adminMember->import($form->get('file')->getData());
         }
         return $this->renderForm('admin/admin_member/index.html.twig', [
-            'members' => $this->memberRepository->findAll(),
+            'members' => $this->memberRepository->findBy([], ['lastName' => 'ASC']),
             'form' => $form
         ]);
     }

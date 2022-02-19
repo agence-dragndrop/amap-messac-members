@@ -1,6 +1,9 @@
 {% extends 'admin/layout/card-center.html.twig' %}
 
+{% block title %}Nouvelle commande{% endblock %}
+
 {% block content %}
+    {% include 'admin/_include/previous-btn.html.twig' with {'link': path('admin_order_index')} %}
     <h1>Nouvelle commande</h1>
     {% include 'admin/admin_order/_form.html.twig' with {'button_save': 'Créer'} %}
 {% endblock %}

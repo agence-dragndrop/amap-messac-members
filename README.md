@@ -4,5 +4,10 @@
 - [x] ordre des colonnes sur le front
 - [x] retirer champ confirmez votre pot de passe
 - [x] adapt map_member_to_order process
-- [ ] server smtps
+- [x] server smtp o2switch
 - [x] widget show password (form login, connexion)
+- [x] Objet des emails + title de toutes les pages
+- [x] pages 404, 403, 401
+- [ ] import & updates vscard
+- [x] CRUD User & Member
+- [x] favicon

@@ -1,4 +1,6 @@
-{% extends 'admin/base.html.twig' %}
+{% extends 'admin/_layout/row-2cols.html.twig' %}
+
+{% block title %}Édition une commande{% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
@@ -74,36 +76,32 @@
     </script>
 {% endblock %}
 
-{% block body %}
-    {% include 'admin/_include/previous-btn.html.twig' with {'link': path('admin_order_index')} %}
-    <div class="row mb-4">
-        <div class="col-lg-6">
-            <div class="p-3 bg-light mb-4">
-                <h1>{{ order.name }}</h1>
-                <p>Date de livraison
-                    <br>
-                    <strong>{{ order.deliveryDate|date("m/d/Y") }}</strong>
-                </p>
-                <a class="btn btn-primary" href="{{ path('admin_order_map_to_member', {'id': order.id}) }}">
-                    télécharger le fichier csv
-                </a>
-            </div>
-        </div>
-        <div class="col-lg-6 mb-4">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    {{ include('admin/admin_order/_form.html.twig') }}
-                </div>
-            </div>
-        </div>
-    </div>
+{% block blockLeft %}
 
+            {% include 'admin/_include/previous-btn.html.twig' with {'link': path('admin_order_index')} %}
+
+<h1>{{ order.name }}</h1>
+<p>Date de livraison
+    <br>
+    <strong>{{ order.deliveryDate|date("m/d/Y") }}</strong>
+</p>
+<a class="btn btn-primary" href="{{ path('admin_order_map_to_member', {'id': order.id}) }}">
+    télécharger le fichier csv
+</a>
+
+{% endblock %}
+
+{% block blockRight %}
+    {{ include('admin/admin_order/_form.html.twig') }}
+{% endblock %}
+
+{% block content %}
     <div class="d-flex justify-content-end flex-column flex-lg-row">
         <h2 class="me-auto">Détail de la commande</h2>
-        <form class="me-2 mb-2" method="post" action="{{ path('admin_order_remove_links', {'id': order.id}) }}"
+        <form class="me-lg-2 mb-2" method="post" action="{{ path('admin_order_remove_links', {'id': order.id}) }}"
               onsubmit="return confirm('Êtes-vous sûr de vouloir retirer toutes les liaisons ?');">
             <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ order.id) }}">
-            <button class="btn btn-info">
+            <button class="btn btn-info d-block w-100">
                 <i class="bi bi-link-45deg"></i>
                 retirer toutes les liaisons
             </button>
@@ -111,7 +109,7 @@
         <form class="mb-2" method="post" action="{{ path('admin_order_delete_links', {'id': order.id}) }}"
               onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer toutes les lignes de cette commandes ?');">
             <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ order.id) }}">
-            <button class="btn btn-danger">
+            <button class="btn btn-danger d-block w-100">
                 <i class="bi bi-trash"></i>
                 supprimer toutes les lignes
             </button>
@@ -160,8 +158,3 @@
         </table>
     </div>
 {% endblock %}
-
-{% block title %}
-
-{% endblock %}
-

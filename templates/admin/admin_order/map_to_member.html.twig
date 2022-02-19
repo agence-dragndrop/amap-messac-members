@@ -1,6 +1,9 @@
 {% extends 'admin/layout/card-center.html.twig' %}
 
+{% block title %}Télécharger un fichier de commande{% endblock %}
+
 {% block content %}
+    {% include 'admin/_include/previous-btn.html.twig' with {'link': app.request.get('referer')} %}
     <h1>{{ order.name }}</h1>
     <p>Date de livraison
         <br>
@@ -8,11 +11,11 @@
     </p>
     {{ form_start(form) }}
     {{ form_row(form.file) }}
-    <button class="btn btn-success">
+    <button class="btn btn-success d-block d-lg-inline-block mb-2">
         <i class="bi bi-upload"></i>
         télécharger et synchroniser
     </button>
-    <a class="btn btn-warning" href="{{ path('admin_order_edit', {'id': order.id}) }}">
+    <a class="btn btn-warning d-block d-lg-inline-block mb-2" href="{{ path('admin_order_edit', {'id': order.id}) }}">
         passer cette étape
         <i class="bi bi-arrow-right"></i>
     </a>
