@@ -1,13 +1,22 @@
-{% extends 'admin/base.html.twig' %}
+{% extends 'admin/_layout/row-2cols.html.twig' %}
 
 {% block title %}Edit User{% endblock %}
 
-{% block body %}
-    <h1>Edit User</h1>
+{% block blockLeft %}
+    {% include 'admin/_include/previous-btn.html.twig' with {'link': path('admin_user_index')} %}
+    <h1>Modification du compte </h1>
+    <p class="fs-5 bg-primary p-3 text-white">
+        <span class="small">adhérent</span>
+        <br>
+        {{ user.member.firstName }} {{ user.member.lastName }}
+    </p>
+    <a href="{{ path('admin_member_edit', {'id': user.member.id}) }}">Voir la fiche adhérent</a>
+{% endblock %}
 
-    {{ include('admin/admin_user/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('admin_user_index') }}">back to list</a>
-
+{% block blockRight %}
+    <div class="mb-2">
+        {{ include('admin/admin_user/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+    </div>
     {{ include('admin/admin_user/_delete_form.html.twig') }}
 {% endblock %}
+

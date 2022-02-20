@@ -1,48 +1,76 @@
-{% extends 'admin/base.html.twig' %}
+{% extends 'admin/_layout/row-2cols.html.twig' %}
 
-{% block title %}Member index{% endblock %}
+{% block title %}Tous les adhérents{% endblock %}
 
-{% block body %}
-    <h1>Member index</h1>
-    {{ form(form) }}
-    {{ members|length }}
-    <table class="table">
-        <thead>
+{% block blockLeft %}
+    <h1>Gestion des adhérents</h1>
+    <span class="badge bg-info">{{ pagination|length }} comptes</span>
+{% endblock %}
+
+{% block blockRight %}
+    <h2 class="h3">Importer des enregistrements</h2>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn btn-success">
+        <i class="bi bi-upload"></i>
+        télécharger
+    </button>
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block content %}
+    <a class="btn btn-primary mb-2" href="{{ path('admin_member_new') }}">
+        <i class="bi bi-plus-lg"></i>
+        Créer une nouvel enregistrement
+    </a>
+    <div class="text-center">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped table-sm table-hover">
+            <thead>
             <tr>
-                <th>Id</th>
-                <th>IsActive</th>
-                <th>Email</th>
-                <th>FirstName</th>
-                <th>LastName</th>
-                <th>Phone 1</th>
+{#                <th>Adhésion active</th>#}
+                <th>{{ knp_pagination_sortable(pagination, 'Nom', 'm.lastName') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'Prénom', 'm.firstName') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'Email', 'm.email') }}</th>
+                <th>Tél. 1</th>
                 <th>Mobile 1</th>
-                <th>Group</th>
-                <th>actions</th>
+                <th>Liste(s) de diffusion</th>
+                <th></th>
             </tr>
-        </thead>
-        <tbody>
-        {% for member in members %}
-            <tr>
-                <td>{{ member.id }}</td>
-                <td>{{ member.isActive ? 'Yes' : 'No' }}</td>
-                <td>{{ member.email }}</td>
-                <td>{{ member.firstName }}</td>
-                <td>{{ member.lastName }}</td>
-                <td>{{ member.phone1 }}</td>
-                <td>{{ member.mobile1 }}</td>
-                <td>{{ member.groups|join(', ') }}</td>
-                <td>
-                    <a href="{{ path('admin_member_show', {'id': member.id}) }}">show</a>
-                    <a href="{{ path('admin_member_edit', {'id': member.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('admin_member_new') }}">Create new</a>
+            </thead>
+            <tbody>
+            {% for member in pagination %}
+                <tr data-member="{{ member.id }}" class="position-relative">
+{#                    <td>#}
+{#                        {% if member.isActive %}#}
+{#                        <i class="bi bi-check-square"></i>#}
+{#                        {% endif %}#}
+{#                    </td>#}
+                    <td>{{ member.lastName }}</td>
+                    <td>{{ member.firstName }}</td>
+                    <td>{{ member.email }}</td>
+                    <td>{{ member.phone1 }}</td>
+                    <td>{{ member.mobile1 }}</td>
+                    <td>{{ member.groups|join(', ') }}</td>
+                    <td class="text-end">
+{#                        <a href="{{ path('admin_member_show', {'id': member.id}) }}">show</a>#}
+                        <a class="btn btn-primary stretched-link" href="{{ path('admin_member_edit', {'id': member.id}) }}">
+                            <i class="bi bi-pencil"></i>
+                            modifier
+                        </a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="8">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="text-center">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+    </div>
 {% endblock %}

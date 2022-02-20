@@ -51,6 +51,13 @@ class MemberRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function queryFind()
+    {
+        return $this->createQueryBuilder("m")
+            ->orderBy('m.lastName', 'ASC')
+            ->getQuery();
+    }
+
     // /**
     //  * @return Member[] Returns an array of Member objects
     //  */

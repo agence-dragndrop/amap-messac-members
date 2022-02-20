@@ -7,6 +7,7 @@ use App\Form\MemberType;
 use App\Repository\MemberRepository;
 use App\Service\AdminMember;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -35,20 +36,31 @@ class AdminMemberController extends AbstractController
      */
     public function index(
         Request $request,
-        AdminMember $adminMember
+        AdminMember $adminMember,
+        PaginatorInterface $paginator,
+        MemberRepository $memberRepository
     ): Response
     {
         $form = $this->createFormBuilder()
-            ->add('file', FileType::class)
-            ->add('submit', SubmitType::class)
+            ->add('file', FileType::class, [
+                'label' => 'Fichier',
+                'help' => 'Sélectionner un fichier au format .vcard sur votre ordinateur.'
+            ])
             ->getForm()
         ;
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $adminMember->import($form->get('file')->getData());
         }
+
+        $pagination = $paginator->paginate(
+            $memberRepository->queryFind(), /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            25 /*limit per page*/
+        );
+
         return $this->renderForm('admin/admin_member/index.html.twig', [
-            'members' => $this->memberRepository->findAll(),
+            'pagination' => $pagination,
             'form' => $form
         ]);
     }
@@ -88,17 +100,19 @@ class AdminMemberController extends AbstractController
     /**
      * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Member $member, EntityManagerInterface $entityManager): Response
-    {
+    public function edit(
+        Request $request,
+        Member $member,
+        EntityManagerInterface $entityManager
+    ): Response {
         $form = $this->createForm(MemberType::class, $member);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
-
-            return $this->redirectToRoute('admin_member_index', [], Response::HTTP_SEE_OTHER);
+            $this->addFlash('success', 'Modifications enregistrées.');
+            return $this->redirectToRoute('admin_member_edit', ['id' => $member->getId()], Response::HTTP_SEE_OTHER);
         }
-
         return $this->renderForm('admin/admin_member/edit.html.twig', [
             'member' => $member,
             'form' => $form,
