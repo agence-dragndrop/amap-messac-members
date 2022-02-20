@@ -5,7 +5,11 @@
 {% block blockLeft %}
     {% include 'admin/_include/previous-btn.html.twig' with {'link': path('admin_user_index')} %}
     <h1>Modification du compte </h1>
-    <p class="fs-5 bg-primary p-3 text-white">{{ user.member.firstName }} {{ user.member.lastName }}</p>
+    <p class="fs-5 bg-primary p-3 text-white">
+        <span class="small">adhérent</span>
+        <br>
+        {{ user.member.firstName }} {{ user.member.lastName }}
+    </p>
     <a href="{{ path('admin_member_edit', {'id': user.member.id}) }}">Voir la fiche adhérent</a>
 {% endblock %}
 

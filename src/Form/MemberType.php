@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Member;
+use App\Entity\MemberGroup;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -22,6 +23,12 @@ class MemberType extends AbstractType
                 'label_attr' => ['class' => 'checkbox-switch']
             ])
             ->add('email')
+            ->add('groups', EntityType::class, [
+                'label' => 'List de diffusion',
+                'class' => MemberGroup::class,
+                'expanded' => true,
+                'multiple' => true
+            ])
             ->add('firstName', TextType::class, [
                 'required' => false,
                 'label' => 'Prénom'

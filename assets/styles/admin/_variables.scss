@@ -1,8 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu+Condensed&display=swap');
+$font-family-base: 'Ubuntu Condensed', sans-serif;
+$transition-speed:   0.2s ease-in-out;
+
 $nav-width: 280px;
-$primary: #7548ba;
+$border-radius: 0;
 
 $green: #287958;
 $red: #792f28;
 $info: #287279;
 $primary: #284979;
 $warning: #795828;
+
+$table-hover-color:           $primary;
+$table-hover-bg-factor:       .25;
+$table-hover-bg:              rgba($primary, $table-hover-bg-factor);
