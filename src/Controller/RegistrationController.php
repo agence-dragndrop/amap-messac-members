@@ -53,6 +53,7 @@ class RegistrationController extends AbstractController
                 );
                 return $this->redirectToRoute("app_register");
             }
+            $user->setIsVerified(true);
             $user->setMember($member);
             $user->setPassword(
             $userPasswordHasher->hashPassword(
@@ -65,7 +66,7 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
             // generate a signed url and email it to the user
-            $this->sendEmailConfirmation($user);
+//            $this->sendEmailConfirmation($user);
             // do anything else you need here, like send an email
 
             return $userAuthenticator->authenticateUser(
