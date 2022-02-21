@@ -57,21 +57,24 @@
                             </div>
                         {% endfor %}
                     </div>
+                    Les règlements par chèque sont à mettre à l'ordre de <strong>Amap de Messac</strong>. Merci !
                     <div class="text-end">
                         <a href="{{ path('order_download_csv', {'id': order.id}) }}" class="btn btn-sm btn-primary d-print-none">
                             <i class="bi bi-download"></i>
                             télécharger<br>
                             au format .csv
                         </a>
-
                     </div>
                 </div>
                 <div class="card-footer text-end">
                     Montant total : <strong>{{ total }} €</strong>
-
                 </div>
             </div>
         </section>
+        {% else %}
+            <p>Aucune commande n'est affectée à votre compte. S'il s'agit d'une erreur, merci de le signaler par mail à
+                <a href="mailto:{{ mailer_contact }}">{{ mailer_contact }}</a> en indiquant l'identifiant de votre
+                compte et le nom inscrit lors de votre commande.</p>
     {% endfor %}
 
 {% endblock %}
