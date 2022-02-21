@@ -2,10 +2,10 @@
     <button class="close-main-nav navbar-toggler text-white"><i class="bi bi-x-lg"></i></button>
     <span class="fs-4">Admin</span>
     <hr>
-    <ul class="nav nav-pills flex-column mb-auto">
+    <ul class="nav nav-pills flex-column">
         <li class="nav-item">
             <a href="{{ path('home') }}" class="nav-link text-white" target="_blank" data-no-swup="">
-                <small>Aller sur l'interface</small> <i class="bi bi-box-arrow-up-right"></i>
+                <small>Aller sur le site</small> <i class="bi bi-box-arrow-up-right"></i>
             </a>
         </li>
         {% set links = [
@@ -25,14 +25,22 @@
         {% endfor %}
     </ul>
     <hr>
-    <div class="dropdown">
-        <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
-           id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-            <strong>{{ app.user.member.firstName }}</strong>
-        </a>
-        <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1" style="">
-            <li><a class="dropdown-item" href="{{ path('app_logout') }}">Déconnexion</a></li>
-        </ul>
-    </div>
+    <ul class="nav nav-pills flex-column" >
+        <li class="nav-item">
+            <a class="nav-link text-white" href="{{ path('app_logout') }}">
+                <i class="bi bi-box-arrow-right"></i>
+                Déconnexion
+            </a>
+        </li>
+    </ul>
+{#    <div class="dropdown">#}
+{#        <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"#}
+{#           id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">#}
+{#            <strong>{{ app.user.member.firstName }}</strong>#}
+{#        </a>#}
+{#        <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1" style="">#}
+{#            <li><a class="dropdown-item" href="{{ path('app_logout') }}">Déconnexion</a></li>#}
+{#        </ul>#}
+{#    </div>#}
 
 </nav>

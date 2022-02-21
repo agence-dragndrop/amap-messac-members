@@ -51,6 +51,11 @@ class AdminMemberController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $adminMember->import($form->get('file')->getData());
+            $this->addFlash("success","Import terminé. " .
+                $adminMember->getMemberCreated() . " comptes créés et " .
+                $adminMember->getMemberUpdated() . " mis à jour."
+            );
+            return $this->redirectToRoute("admin_member_index");
         }
 
         $pagination = $paginator->paginate(

@@ -4,19 +4,16 @@
 
 {% block body %}
     {% for order in orders %}
-        <section class="mb-5">
+        <section class="mb-5 mt-lg-3">
             <div class="card shadow">
                 <div class="card-header fw-bold">
-                    {{ order.name }}
-                    -
-                    Date de livraison : {{ order.deliveryDate|date("m/d/Y") }}
+                    <h1>{{ order.name }}</h1>
                     {% if order.pricing %}
                         <br>
-                        <span class="badge bg-info">{{ order.pricing }}</span>
+                        <span class="badge bg-info fs-4">{{ order.pricing }}</span>
                         {% if (tarifs_pdf.fileExist) %}
-                            -
                             <a href="{{ tarifs_pdf.getPublicPath }}" target="_blank">
-                                {{ tarifs_pdf.filename }}
+                                voir les tarifs
                                 <i class="ms-auto bi bi-box-arrow-up-right"></i>
                             </a>
                         {% endif %}
@@ -63,8 +60,10 @@
                     <div class="text-end">
                         <a href="{{ path('order_download_csv', {'id': order.id}) }}" class="btn btn-sm btn-primary d-print-none">
                             <i class="bi bi-download"></i>
-                            télécharger
+                            télécharger<br>
+                            au format .csv
                         </a>
+
                     </div>
                 </div>
                 <div class="card-footer text-end">
