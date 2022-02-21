@@ -5,7 +5,7 @@ namespace App\Service;
 class FrontNavigation
 {
     public const NAVIGATION = [
-        ["title" => "Accueil", "path" => "home", "granted" => ""],
+        ["title" => "Amap Autour de la Libauderie", "path" => "home", "granted" => ""],
         ["title" => "Mes commandes", "path" => "order_index", "granted" => "ROLE_USER_VERIFIED"],
         ["title" => "Connexion", "path" => "login", "granted" => ""],
         ["title" => "S'inscrire", "path" => "app_register", "granted" => ""],

@@ -11,7 +11,7 @@
                 <div class="card-body text-center">
                     <h5 class="card-title ">Bienvenue amapien·ne !</h5>
                     {% if is_granted("ROLE_USER") %}
-                        <p class="card-text">Vous êtes connecté·e avec les compte <strong>{{ app.user.member.email }}</strong>.</p>
+                        <p class="card-text">Vous êtes connecté·e avec le compte <strong>{{ app.user.member.email }}</strong>.</p>
                         <a class="btn btn-primary d-block mb-2 d-lg-inline-block" href="{{ path('user_account') }}">
                             <i class="bi bi-person-fill"></i>
                             Accéder à mon compte
@@ -21,7 +21,8 @@
                             Mes commandes
                         </a>
                     {% else %}
-                        <p class="card-text">Cet espace est réservé aux adhérents de l'Amap de Messac.</p>
+                        <p class="card-text">Cet espace est réservé aux adhérents de l'<strong>Amap Autour de la
+                                Libauderie</strong>.</p>
                         <a class="btn btn-primary d-block mb-2 d-lg-inline-block" href="{{ path('login') }}">
                             Se connecter
                         </a>
