@@ -4,7 +4,7 @@
 
 
 {% block blockLeft %}
-    {% include 'admin/_include/previous-btn.html.twig' with {'link': app.request.get('referer')} %}
+    {% include 'admin/_include/previous-btn.html.twig' with {'link': path('admin_member_index')} %}
     <h1>{{ member.firstName }} {{ member.lastName }}</h1>
     {% if member.user %}
         <a href="{{ path('admin_user_edit', {'id': member.user.id}) }}">Voir le compte utilisateur</a>

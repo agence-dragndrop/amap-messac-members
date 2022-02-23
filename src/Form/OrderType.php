@@ -28,8 +28,10 @@ class OrderType extends AbstractType
                 'required' => true
             ])
             ->add('pricing', TextType::class, [
-                'label' => 'Tarif',
-                'help' => 'Tarif appliqué par le producteur (Tarif A, B, C, etc.)',
+                'label' => 'Tarification',
+                'help_html' => true,
+                'help' => 'Tarif appliqué par le producteur (ex. Tarif A, B, C, etc.). 
+                Les tarifs du producteur peuvent être téléchargés <a href="/admin/commandes">ici</a>. Un lien vers le document sera alors disponible sur la page « Mes commandes » des utilisateurs.',
                 'required' => false
             ])
         ;

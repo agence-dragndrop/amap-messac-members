@@ -77,18 +77,16 @@
 {% endblock %}
 
 {% block blockLeft %}
-
-            {% include 'admin/_include/previous-btn.html.twig' with {'link': path('admin_order_index')} %}
-
-<h1>{{ order.name }}</h1>
-<p>Date de livraison
-    <br>
-    <strong>{{ order.deliveryDate|date("m/d/Y") }}</strong>
-</p>
-<p>Tarification
-    <br>
-    <strong>{{ order.pricing }}</strong>
-</p>
+    {% include 'admin/_include/previous-btn.html.twig' with {'link': path('admin_order_index')} %}
+    <h1>{{ order.name }}</h1>
+    <p>Date de livraison
+        <br>
+        <strong>{{ order.deliveryDate|date("m/d/Y") }}</strong>
+    </p>
+    <p>Tarification
+        <br>
+        <strong>{{ order.pricing }}</strong>
+    </p>
 
 {% endblock %}
 
