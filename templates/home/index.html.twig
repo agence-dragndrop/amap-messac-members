@@ -4,13 +4,13 @@
 
 {% block body %}
 {#    @todo use vegetables-g90a72790b_1280.jpg #}
-    <div class="bg-image" style="background-image: url('{{ asset('build/images/870x489_gettyimages.jpg') }}')"></div>
+    <div class="bg-image" style="background-image: url('{{ asset('build/images/vegetables-g90a72790b_1280.jpg') }}')"></div>
     <div class="row">
         <div class="col-md-8 offset-md-2 d-flex flex-column align-items-center position-relative">
             <div class="card shadow position-absolute top-0 bg-white bg-opacity-90"
                  style="margin-top: 50px; width: 80%">
                 <div class="card-body text-center">
-                    <h5 class="card-title ">Bienvenue amapien·ne !</h5>
+                    <h5 class="card-title ">Bienvenue !</h5>
                     {% if is_granted("ROLE_USER") %}
                         <p class="card-text">Vous êtes connecté·e avec le compte <strong>{{ app.user.member.email }}</strong>.</p>
                         <a class="btn btn-primary d-block mb-2 d-lg-inline-block" href="{{ path('user_account') }}">
